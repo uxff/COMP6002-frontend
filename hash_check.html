@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    <title>COMP 6002 Project</title>
+    <link href="/static/bower/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/custom.css" rel="stylesheet">
+</head>
+<body id="home">
+<script src="/static/bower/jquery/dist/jquery.min.js"></script>
+<script src="/static/bower/bootstrap/dist/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="/static/js/twitter-bootstrap-hover-dropdown.min.js"></script>
+<script src="/static/js/custom.js"></script>
+
+<!--part header-->
+
+<header id="topbar" class="navbar navbar-inverse bs-docs-nav" role="banner">
+  <div class="container">
+    <div class="row">
+    <div class="navbar-header">
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+        <span class="sr-only">Navigator</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a style="font-size: 14px;" class="navbar-brand" rel="home" href="/" >
+        <strong>Forensic Analytics using Event ID and User Activity Based Search</strong>
+      </a>
+    </div>
+
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation" >
+      <!-- 左侧主要菜单 -->
+      <ul class="nav navbar-nav">
+        <li>
+          <a href='/index.html'>
+            <span class="glyphicon glyphicon-search"></span> Search Mitre Activities & Windows Events
+          </a>
+        </li>
+        <li>
+          <a href="/hash_check.html" >
+            <span class="glyphicon glyphicon-compressed"></span> File Hash Check 
+          </a>
+        </li>
+        <li>
+          <a href="/hash_search.html"  >
+            <span class="glyphicon glyphicon-th-list"></span> File Hash Search 
+          </a>
+        </li>
+        <li>
+          <a href="/tequenique_log_search.html"  >
+            <span class="glyphicon glyphicon-list-alt"></span> Technique Log Search 
+          </a>
+        </li>
+      </ul>
+
+    </nav>
+    </div>
+  </div>
+
+</header>
+
+<!--body part-->
+<div class="container">
+  <div class="row">
+    <ul class="breadcrumb">
+      <li><a href="/">Home</a></li>
+      <li class="active">File Hash Check</li>
+    </ul>
+    <p class="text-left">This system can help you search and analysis the Mitre Activities and Windows Events.</p>
+    <p class="text-center">输入：上传文件；hash。</p>
+    <p class="text-center">输出：是否匹配；计算后的hash。</p>
+    <div class="panel panel-default">
+      <div class="panel-heading">Upload File</div>
+      <div class="panel-body">
+          <!-- <form enctype="multipart/form-data" id="uploadForm" class="form-horizontal" method="POST" action="/api/hash_calc"> -->
+              <div class="form-group" >
+                  <label class="control-label col-sm-1" for="fileToCheck">Select Your Local File</label>
+                  <div class="col-sm-2">
+                    <input type="file" name="file" id="fileToCheck">
+                  </div>
+                  <label class="control-label col-sm-1" for="txt_expected_hash">Expected Hash</label>
+                  <div class="col-sm-2">
+                      <input type="text" class="form-control" id="txt_expected_hash" name="expectedHash" value="">
+                  </div>
+                  <div class="col-sm-3" style="text-align:left;">
+                      <button type="submit" id="btnUploadSubmit" style="margin-left:50px" class="btn btn-primary">Check</button>
+                  </div>
+              </div>
+          <!-- </form> -->
+      </div>
+    </div>       
+
+    <div class="panel panel-success" id="">
+      <div class="panel-heading">Checking Result</div>
+      <div class="panel-body hidden" id="panCheckResult"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<script type="text/javascript">
+    $('#btnUploadSubmit').on('click', function(){
+      let files = $('#txt_expected_hash').prop('files');
+      let data = new FormData();
+      data.append('expectedHash', files[0]);
+        // $('#uploadForm').submit();
+        // $('#uploadModal').modal('hide');
+        $('#panCheckResult').html("The hash matching result:"+'ok');
+        return;
+        $.ajax({
+            type: 'POST',
+            url: "http://xxxx/import_csv",
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function (ret) {
+              $('#panCheckResult').html("The hash matching result:"+ret.msg);
+            }
+        });
+    });
+
+</script>
+
+
+<!--end of body part-->
+<footer>
+  <div class="container">
+    <div class="clearfix">
+      <div class="footer-logo">
+          <small style='font-size: 90%;'>COMP6002 Project</small>
+      </div>
+      <dl class="footer-nav">
+        <dt class="nav-title">Navigator</dt>
+        <dd class="nav-item">
+          <a href="#">
+            <span class="glyphicon glyphicon-home"> Mitre Activity & Windows EventIDs Search</span>
+          </a>
+        </dd>
+        <dd class="nav-item">
+          <a href="#" target="_blank">
+            <span class='glyphicon glyphicon-briefcase'> File Hash Check</span>
+          </a>
+        </dd>
+        <dd class="nav-item">
+          <a href="#" target="_blank">
+            <span class='glyphicon glyphicon-upload'> File Hash Search</span>
+          </a>
+        </dd>
+        <dd class="nav-item">
+          <a href="#" target="_blank">
+            <span class='glyphicon glyphicon-search'> Windows Event Log Search</span>
+          </a>
+        </dd>
+      </dl>
+      <dl class="footer-nav">
+        <dt class="nav-title">Relative Information</dt>
+
+        <dd class="nav-item">
+          <a href="#">
+            <span class='glyphicon glyphicon-info-sign'> Mitre Activities</span>
+          </a>
+        </dd>
+        <dd class="nav-item">
+          <a href="#">
+            <span class='glyphicon glyphicon-info-sign'> Windows Events</span>
+          </a>
+        </dd>
+        <dd class="nav-item">
+          <a href="#">
+            <span class='glyphicon glyphicon-info-sign'> .Net Core</span>
+          </a>
+        </dd>
+        <dd class="nav-item">
+          <a href="#">
+            <span class='glyphicon glyphicon-info-sign'> Bootstrap</span>
+          </a>
+        </dd>
+
+      </dl>
+
+      <dl class="footer-nav">
+        <dt class="nav-title">Team Members</dt>
+        <dd class="nav-item">
+          <a href="#" target="_blank">
+            <span class='glyphicon glyphicon-comment'> Yue.Li</span>
+          </a>
+        </dd>
+        <dd class="nav-item">
+          <a href="#" target="_blank">
+            <span class='glyphicon glyphicon-comment'> Mingyong.Wang</span>
+          </a>
+        </dd>
+        <dd class="nav-item">
+          <a href="#" target="_blank">
+            <span class='glyphicon glyphicon-comment'> Qing.Chen</span>
+          </a>
+        </dd>
+        <dd class="nav-item">
+          <a href="#" target="_blank">
+            <span class='glyphicon glyphicon-comment'> Duorui.Xu</span>
+          </a>
+        </dd>
+      </dl>
+
+      <dl class="footer-nav">
+        <dt class="nav-title">Supervisor</dt>
+        <dd class="nav-item">
+          <a href="#" target="_blank">
+            <span class='glyphicon glyphicon-comment'> Mihai.Lazascue</span>
+          </a>
+        </dd>
+      </dl>
+
+    </div>
+
+    <div class="footer-copyright text-center">
+      Copyright <span class="glyphicon glyphicon-copyright-mark"></span>
+      2023 <strong>COMP6002 Project Team 3</strong>
+      All rights reserved.
+    </div>
+
+  </div>
+</footer>
+
+
+</body>
+</html>
+
