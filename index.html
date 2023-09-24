@@ -100,11 +100,14 @@
                 <!--if exist result, show tr below-->
                 <tr data-id="{{.Id}}" data-hash="{{.FileHash}}" data-pathhash={{.PathHash}}>
                     <td>
-                        {{if .IsDir}}<span class="glyphicon glyphicon-folder-close"></span>{{else}}<span class="glyphicon glyphicon-file"></span>{{end}}
-                        <a href="/my/file/list?dir={{.FilePath}}{{.FileName}}">{{.FileName}}</a>
+                      T1136 Create Account
                     </td>
-                    <td>{{.Created }}</td>
-                    <td>{{if .IsDir}}-{{else}}{{size4Human .Size }}{{end}}</td>
+                    <td>Adversaries may create an account to maintain access to victim systems. With a sufficient level of access, creating such accounts may be used to establish secondary credentialed access that do not require persistent remote access tools to be deployed on the system.<br/>
+                      Accounts may be created on the local system or within a domain or cloud tenant. In cloud environments, adversaries may create accounts that only have access to specific services, which can reduce the chance of detection.</td>
+                    <td>
+                      <!--should make link here. optional link 1: search eventID; optional link 2: detail page of eventID/actID-->
+                      E101,E102,E103
+                    </td>
                 </tr>
                 <!--if no result, show tr below-->
                 <tr>
