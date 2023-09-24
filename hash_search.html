@@ -101,9 +101,7 @@
             <tbody id="tbody_result">
                 <!--if exist result, show tr below-->
                 <tr data-id="{{.Id}}" data-hash="{{.FileHash}}" data-pathhash={{.PathHash}}>
-                    <td>
-                        C:\\Windows\\cmd.exe
-                    </td>
+                    <td>C:\\Windows\\cmd.exe</td>
                     <td>1.5MB</td>
                     <td>2023-01-01 01:01:01</td>
                     <td>D5D51278CC81048977EF5D52FDB5EDBAD3A99918</td>
@@ -146,11 +144,31 @@
         pagerGoClass: '',
         isTest: true,	//如果只是测试前端效果，那么可以加上isTest属性，正式使用时不需要
         success: function (data) {      //数据请求成功后执行的操作，必需
-
-
+          if (data.code == 0) {
+            // success
+            $('#tbody_result').show();
+            $('#tbody_no_result').hide();
+            // should make table; // row: fileName, 
+            let tds = '';
+            for (let i=0; i<data.resultList; i++) {
+              tds += '<td>'+data.resultList[i]['file']+'</td>';
+              tds += '<td>'+data.resultList[i]['size']+'</td>';
+              tds += '<td>'+data.resultList[i]['lastModified']+'</td>';
+              tds += '<td>'+data.resultList[i]['fileHash']+'</td>';
+            }
+            $('#tbody_result').append('<tr>'+tds+'</tr>');
+          } else {
+            $('#tbody_result').hide();
+            $('#tbody_no_result').show();
+            $('#tbody_no_result_hint').text(data.msg);
+          }
+          
         },
         complete: function(){},
-        error: function(){}
+        error: function(){
+          $('#tbody_result').hide();
+          $('#tbody_no_result').show();
+        }
     });
 </script>
 
